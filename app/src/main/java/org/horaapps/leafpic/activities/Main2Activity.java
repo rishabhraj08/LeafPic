@@ -1,5 +1,6 @@
 package org.horaapps.leafpic.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.KeyguardManager;
@@ -13,7 +14,9 @@ import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.ActivityCompat;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.horaapps.leafpic.R;
@@ -45,7 +48,8 @@ public class Main2Activity extends AppCompatActivity {
     private FingerprintManager fingerprintManager;
     private KeyguardManager keyguardManager;
     private Button open;
-
+    private EditText userpass;
+    private String stringpass;
 
 
 
@@ -53,8 +57,8 @@ public class Main2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-       // open= (Button)findViewById(R.id.button_submit);
-
+        open= (Button)findViewById(R.id.button_submit);
+        userpass= (EditText)findViewById(R.id.homepass);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
@@ -101,6 +105,22 @@ public class Main2Activity extends AppCompatActivity {
             }
 
         }
+
+        open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               stringpass=userpass.getText().toString();
+               if(stringpass.equals("1234"))
+               {
+                   Intent it1= new Intent(getBaseContext(),MainActivity.class);
+                   startActivity(it1);
+               }
+               else
+               {
+                   userpass.setError("Invalid Password");
+               }
+            }
+        });
     }
 
 
