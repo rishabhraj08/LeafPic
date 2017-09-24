@@ -44,3 +44,6 @@ The project uses [Crowdin](https://crowdin.com/project/leafpic), a platform that
 #### Licensing
 LeafPic is licensed under the [GNU v3 Public License](https://github.com/HoraApps/LeafPic/blob/master/LICENSE).
 In addition to the terms set by the GNU v3 Public License, we ask that if you use any code from this repository that you send us a message to let us know.
+
+
+This is a test case.

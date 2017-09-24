@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 repositories {
-    maven { url  "http://dl.bintray.com/dasar/maven" }
+    maven { url "http://dl.bintray.com/dasar/maven" }
 }
 
 
@@ -10,7 +10,7 @@ android {
     buildToolsVersion project.buildToolsVersion
     defaultConfig {
         applicationId "org.horaapps.leafpic"
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion project.sdkVersion
         versionName "v0.6-beta-2"
         versionCode 14
@@ -68,8 +68,9 @@ android {
 }
 
 dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    
+
     // google & support
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:cardview-v7:$supportVersion"
@@ -116,7 +117,6 @@ dependencies {
     // debug Only
     //debugCompile project(':inappstoragereader')
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-
 
     // TODO check them out
     implementation 'com.turingtechnologies.materialscrollbar:lib:10.0.3'
