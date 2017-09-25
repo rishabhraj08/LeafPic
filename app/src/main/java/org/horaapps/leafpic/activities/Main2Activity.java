@@ -114,6 +114,7 @@ public class Main2Activity extends AppCompatActivity {
                {
                    Intent it1= new Intent(getBaseContext(),MainActivity.class);
                    startActivity(it1);
+                   finish();
                }
                else
                {
