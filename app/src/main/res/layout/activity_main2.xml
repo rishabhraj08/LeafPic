@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
+    android:background="@color/accent_green"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="8dp"
@@ -10,6 +11,12 @@
     android:paddingRight="8dp"
     android:paddingTop="8dp"
     >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/leaf_pic"
+        android:id="@+id/leafimg"
+        android:layout_below="@+id/leaf"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,43 +27,33 @@
         android:id="@+id/leaf"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <EditText
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp"
-        android:inputType="numberPassword"
-        android:maxLength="4"
-        android:id="@+id/homepass"
-
-        />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/button_submit"
-        android:layout_below="@+id/homepass"
-        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/leafimg"
         android:layout_marginTop="16dp"
-        android:text="OPEN"/>
+        android:layout_centerHorizontal="true"
+        android:text="OPEN" />
 
     <TextView
+        android:id="@+id/textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/textview"/>
-
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
 
     <TextView
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/textView2"
-        android:text="Place your fingertip on the Home Button to verify your identifty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="27dp"
-        android:layout_alignParentBottom="true"/>
+        android:layout_marginBottom="20dp"
+        android:text="Place your fingertip on the Home Button to verify your identifty" />
 
 
 </RelativeLayout>

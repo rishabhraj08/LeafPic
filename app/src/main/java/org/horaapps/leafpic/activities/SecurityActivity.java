@@ -1,6 +1,8 @@
 package org.horaapps.leafpic.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +41,9 @@ public class SecurityActivity extends ThemedActivity {
     private SwitchCompat swFingerPrint;
     private LinearLayout llFingerprint;
     private FingerprintHandler fingerprintHandler;
+    static String AppPassword;
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,7 @@ public class SecurityActivity extends ThemedActivity {
         swApplySecurityHidden = (SwitchCompat) findViewById(R.id.security_body_apply_hidden_switch);
         swFingerPrint = (SwitchCompat) findViewById(R.id.active_security_fingerprint_switch);
         llFingerprint = (LinearLayout) findViewById(R.id.ll_active_security_fingerprint);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
 
         initUi();
@@ -183,6 +189,12 @@ public class SecurityActivity extends ThemedActivity {
                     if (editTextPassword.getText().toString().equals(editTextConfirmPassword.getText().toString())) {
                         if (Security.setPassword(editTextPassword.getText().toString())) {
                             swActiveSecurity.setChecked(true);
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString("pass",editTextPassword.getText().toString());
+                            editor.commit();
+                            AppPassword= sharedpreferences.getString("pass","1234");
+                            //AppPassword=editTextPassword.getText().toString();
+                           //Toast.makeText(SecurityActivity.this, "Security activity set "+AppPassword, Toast.LENGTH_SHORT).show();
                             toggleEnabledChild(true);
                             Toast.makeText(getApplicationContext(), org.horaapps.leafpic.R.string.remember_password_message, Toast.LENGTH_SHORT).show();
                         } else Toast.makeText(SecurityActivity.this, R.string.error_contact_developer, Toast.LENGTH_SHORT).show();
@@ -213,7 +225,7 @@ public class SecurityActivity extends ThemedActivity {
             ((IconicsImageView) findViewById(org.horaapps.leafpic.R.id.active_security_fingerprint_icon)).setColor(getSubTextColor());
             ((TextView) findViewById(org.horaapps.leafpic.R.id.active_security_fingerprint_item_title)).setTextColor(getSubTextColor());
         }
-    }
+     }
 
 
     @CallSuper
