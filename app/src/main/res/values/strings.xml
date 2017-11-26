@@ -7,6 +7,29 @@
     <string name="welcome_slide_sub">A Colorful Material Designed Gallery!</string>
     <string name="made_with_love_by">Made with love by</string>
 
+    <!--Cloud Backup-->
+    <string name="cloud">Cloud</string>
+    <string name="cloud_uploads">Cloud Backup</string>
+    <string name="dropbox_login">DropBox</string>
+    <string name="firebase_login">Firebase</string>
+    <string name="sign_in">Sign in</string>
+    <string name="dropbox">DropBox</string>
+    <string name="cloud_backup">CLOUD BACKUP</string>
+    <string name="backup_firebase">Firebase</string>
+    <string name="backup_header_text">
+        Hi,\nCloud storage is a service those the data remotely maintained, managed,
+        and backed up. This service allow the users to store file online,
+        so they can access them from anywhere anytime via the internet.
+        Your information is fully secure which you store in the cloud.
+        It is the easily to connect the data and maintained,
+        operated and managed by cloud storage service provider on a storage servers.
+        \n.
+    </string>
+    <string name="firebase_coming_soon">Cloud Storage for Firebase is a powerful, simple, and cost-effective object storage service built for Google scale.\n</string>
+    <string name="dropbox_text">Dropbox allows us to maintain record of at most 500 users in beta version of this app. </string>
+
+
+
     <!--AUTHORS-->
     <string name="donald_role">Project Manager</string>
     <string name="gilbert_role">Major Designer</string>

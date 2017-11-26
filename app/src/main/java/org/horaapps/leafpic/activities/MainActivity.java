@@ -220,6 +220,22 @@ public class MainActivity extends SharedMediaActivity {
             }
         });
 
+        //For DropBox
+        findViewById(R.id.ll_drawer_Cloudbackup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try
+                {
+                    startActivity(new Intent(MainActivity.this, DropboxBackup.class));
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
         findViewById(R.id.ll_drawer_Default).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -193,6 +193,33 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
+        <!--For DropBox-->
+
+        <activity android:name="com.dropbox.client2.android.AuthActivity"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboard">
+            <intent-filter>
+                <data android:scheme = "db-3nmmgn5jsq5i5o4"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name = "android.intent.category.BROWSABLE"/>
+                <category android:name = "android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="org.horaapps.leafpic.activities.DropboxBackup"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/cloud"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--Cloud Ends-->
+
         <!--
              <meta-data
             android:name="org.horaapps.leafpic.CustomGlideModule"
