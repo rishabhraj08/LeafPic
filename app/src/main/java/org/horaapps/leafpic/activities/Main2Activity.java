@@ -1,6 +1,8 @@
 package org.horaapps.leafpic.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.KeyguardManager;
@@ -18,8 +20,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.horaapps.leafpic.R;
+import org.horaapps.leafpic.util.Security;
+import org.horaapps.liz.ThemedActivity;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -36,7 +41,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 
-public class Main2Activity extends AppCompatActivity {
+public class Main2Activity extends ThemedActivity {
 
 
     private static final String KEY_NAME = "yourKey";
@@ -48,17 +53,23 @@ public class Main2Activity extends AppCompatActivity {
     private FingerprintManager fingerprintManager;
     private KeyguardManager keyguardManager;
     private Button open;
-    private EditText userpass;
     private String stringpass;
-
+    private String mainpass;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    //SharedPreferences preferences;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         open= (Button)findViewById(R.id.button_submit);
-        userpass= (EditText)findViewById(R.id.homepass);
+        //preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = preferences.edit();
+        //editor.putString("pass",SecurityActivity.AppPassword);
+        //editor.commit();
+       // mainpass=preferences.getString("pass",null);
+      //  Toast.makeText(this, "uppass"+mainpass, Toast.LENGTH_SHORT).show();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
@@ -109,17 +120,35 @@ public class Main2Activity extends AppCompatActivity {
         open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               stringpass=userpass.getText().toString();
-               if(stringpass.equals("1234"))
+              // stringpass=userpass.getText().toString();
+                if (Security.isPasswordSet()) {
+                    askPassword();
+                }else {
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
+                }
+               /*if(stringpass.equals("1234"))
                {
+                   Toast.makeText(Main2Activity.this, "AppPass  "+ mainpass, Toast.LENGTH_SHORT).show();
                    Intent it1= new Intent(getBaseContext(),MainActivity.class);
                    startActivity(it1);
+                   finish();
                }
                else
                {
                    userpass.setError("Invalid Password");
-               }
+               }*/
             }
+        });
+    }
+    private void askPassword(){
+        Security.authenticateUser(this, new Security.AuthCallBack() {
+            @Override
+            public void onAuthenticated() {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+            @Override
+            public void onError() {Toast.makeText(getApplicationContext(), R.string.wrong_password, Toast.LENGTH_SHORT).show();}
         });
     }
 

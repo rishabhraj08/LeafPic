@@ -2,6 +2,7 @@ package org.horaapps.leafpic.activities;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -66,7 +67,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
         startAcivity(it);*/
         Intent openThree = new Intent(context,MainActivity.class);
         context.startActivity(openThree);
-
+        ((Activity)context).finish();
     }
 
 
