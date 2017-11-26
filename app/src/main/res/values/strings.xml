@@ -115,7 +115,7 @@ and this could make the media inaccessible from other apps. Use the exclude opti
     <string name="send_to">Send to</string>
     <string name="search_menu">search</string>
     <string name="full_resolution">Full resolution</string>
-    <string name="of">of</string>
+    <string name="of"> of </string>
 
     <!-- PALETTE-->
     <string name="palette">Palette</string>
@@ -171,9 +171,6 @@ and this could make the media inaccessible from other apps. Use the exclude opti
     <string name="fingerprint">Fingerprint</string>
     <string name="clear_password">Clear Password</string>
     <string name="error_password_length">The minimum password length is 4 character</string>
-
-    <!-- FINGERPRINT-->
-    <string name="instructions">Place your fingertip on the Home button to verify your identity</string>
 
     <!-- SETTINGS -->
     <string name="settings">Settings</string>
@@ -274,7 +271,8 @@ and this could make the media inaccessible from other apps. Use the exclude opti
 
     <string name="send_mail_error">There are no email clients installed.</string>
     <string name="about_special_thanks">Special thanks</string>
-    <string name="about_special_thanks_patryk_goworowski_sub">to <a href="https://plus.google.com/109304801957014561872/about">Patryk Goworowski</a> for the
+    <string name="about_special_thanks_patryk_goworowski_sub">to <a
+        href="https://plus.google.com/109304801957014561872/about">Patryk Goworowski</a> for the
         awesome icon.
     </string>
     <string name="about_special_thanks_members_sub">
@@ -396,7 +394,8 @@ and this could make the media inaccessible from other apps. Use the exclude opti
     <string name="error_occured_open_media">An error occurred opening this media.</string>
     <string name="error_thumbnail">Unable to find a thumbnail for the album!</string>
     <string name="no_app_to_perform">Unable to found an app to perform this action.</string>
-    <string name="deleting_images">We are thorwing away all your media!</string>
-    <string name="start_slide_show">Start Slide</string>
-    <string name="stop_slide_show">Stop Slide</string>
+    <string name="deleting_images">Threw away %d/%d media!</string>
+    <string name="start_slide_show">Start Slideshow</string>
+    <string name="stop_slide_show">Stop Slideshow</string>
+    <string name="errors">Errors</string>
 </resources>

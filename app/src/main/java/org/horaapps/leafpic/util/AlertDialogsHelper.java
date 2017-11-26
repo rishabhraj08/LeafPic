@@ -10,10 +10,13 @@ import android.net.Uri;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -29,8 +32,10 @@ import com.drew.lang.GeoLocation;
 import com.orhanobut.hawk.Hawk;
 
 import org.horaapps.leafpic.R;
+import org.horaapps.leafpic.adapters.ProgressAdapter;
 import org.horaapps.leafpic.data.Media;
 import org.horaapps.leafpic.data.metadata.MediaDetailsMap;
+import org.horaapps.leafpic.data.metadata.MetadataHelper;
 import org.horaapps.liz.ThemeHelper;
 import org.horaapps.liz.ThemedActivity;
 
@@ -41,6 +46,7 @@ import java.lang.reflect.Field;
 import java.util.Locale;
 
 import in.uncod.android.bypass.Bypass;
+import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
 /**
  * Created by dnld on 19/05/16.
@@ -51,7 +57,7 @@ public class AlertDialogsHelper {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, activity.getDialogStyle());
         View dialogLayout = activity.getLayoutInflater().inflate(org.horaapps.leafpic.R.layout.dialog_insert_text, null);
-        TextView textViewTitle = (TextView) dialogLayout.findViewById(org.horaapps.leafpic.R.id.rename_title);
+        TextView textViewTitle = dialogLayout.findViewById(R.id.rename_title);
 
         ((CardView) dialogLayout.findViewById(org.horaapps.leafpic.R.id.dialog_chose_provider_title)).setCardBackgroundColor(activity.getCardBackgroundColor());
         textViewTitle.setBackgroundColor(activity.getPrimaryColor());
@@ -80,8 +86,8 @@ public class AlertDialogsHelper {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity,activity.getDialogStyle());
         View dialogLayout = activity.getLayoutInflater().inflate(R.layout.dialog_text, null);
 
-        TextView dialogTitle = (TextView) dialogLayout.findViewById(org.horaapps.leafpic.R.id.text_dialog_title);
-        TextView dialogMessage = (TextView) dialogLayout.findViewById(org.horaapps.leafpic.R.id.text_dialog_message);
+        TextView dialogTitle = dialogLayout.findViewById(R.id.text_dialog_title);
+        TextView dialogMessage = dialogLayout.findViewById(R.id.text_dialog_message);
 
         ((CardView) dialogLayout.findViewById(org.horaapps.leafpic.R.id.message_card)).setCardBackgroundColor(activity.getCardBackgroundColor());
         dialogTitle.setBackgroundColor(activity.getPrimaryColor());
@@ -92,11 +98,40 @@ public class AlertDialogsHelper {
         return builder.create();
     }
 
+    public static AlertDialog getProgressDialogWithErrors(ThemedActivity activity, @StringRes int title, ProgressAdapter adapter, int max) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity, activity.getDialogStyle());
+        View dialogLayout = activity.getLayoutInflater().inflate(R.layout.dialog_list_progress, null);
+        final int[] progress = {0};
+        TextView dialogTitle = dialogLayout.findViewById(R.id.text_dialog_title);
+        TextView progressMessage = dialogLayout.findViewById(R.id.name_folder);
+        ((ProgressBar) dialogLayout.findViewById(org.horaapps.leafpic.R.id.progress_dialog_loading)).getIndeterminateDrawable()
+                .setColorFilter(activity.getPrimaryColor(), android.graphics.PorterDuff.Mode.SRC_ATOP);
+
+        adapter.setListener(item -> {
+            progress[0]++;
+            dialogTitle.setText(activity.getString(title, progress[0], max));
+            progressMessage.setText(item.getName());
+        });
+
+        RecyclerView rv = dialogLayout.findViewById(R.id.rv_progress);
+        rv.setLayoutManager(new LinearLayoutManager(activity));
+        rv.setHasFixedSize(true);
+        rv.setItemAnimator(new LandingAnimator(new OvershootInterpolator(1f)));
+        rv.setAdapter(adapter);
+
+
+        ((CardView) dialogLayout.findViewById(org.horaapps.leafpic.R.id.message_card)).setCardBackgroundColor(activity.getCardBackgroundColor());
+        dialogTitle.setBackgroundColor(activity.getPrimaryColor());
+        dialogTitle.setText(activity.getString(title, progress[0], max));
+        builder.setView(dialogLayout);
+        return builder.create();
+    }
+
     public static AlertDialog getProgressDialog(final ThemedActivity activity,  String title, String message){
         AlertDialog.Builder progressDialog = new AlertDialog.Builder(activity, activity.getDialogStyle());
         View dialogLayout = activity.getLayoutInflater().inflate(org.horaapps.leafpic.R.layout.dialog_progress, null);
-        TextView dialogTitle = (TextView) dialogLayout.findViewById(org.horaapps.leafpic.R.id.progress_dialog_title);
-        TextView dialogMessage = (TextView) dialogLayout.findViewById(org.horaapps.leafpic.R.id.progress_dialog_text);
+        TextView dialogTitle = dialogLayout.findViewById(R.id.progress_dialog_title);
+        TextView dialogMessage = dialogLayout.findViewById(R.id.progress_dialog_text);
 
         dialogTitle.setBackgroundColor(activity.getPrimaryColor());
         ((CardView) dialogLayout.findViewById(org.horaapps.leafpic.R.id.progress_dialog_card)).setCardBackgroundColor(activity.getCardBackgroundColor());
@@ -114,9 +149,10 @@ public class AlertDialogsHelper {
 
     public static AlertDialog getDetailsDialog(final ThemedActivity activity, final Media f) {
         AlertDialog.Builder detailsDialogBuilder = new AlertDialog.Builder(activity, activity.getDialogStyle());
-        MediaDetailsMap<String, String> mainDetails = new MediaDetailsMap<>();//f.getMainDetails(activity.getApplicationContext());
+        MetadataHelper mdhelper = new MetadataHelper();
+        MediaDetailsMap<String, String> mainDetails = mdhelper.getMainDetails(activity, f);
         final View dialogLayout = activity.getLayoutInflater().inflate(org.horaapps.leafpic.R.layout.dialog_media_detail, null);
-        ImageView imgMap = (ImageView) dialogLayout.findViewById(org.horaapps.leafpic.R.id.photo_map);
+        ImageView imgMap = dialogLayout.findViewById(R.id.photo_map);
         dialogLayout.findViewById(org.horaapps.leafpic.R.id.details_title).setBackgroundColor(activity.getPrimaryColor());
         ((CardView) dialogLayout.findViewById(org.horaapps.leafpic.R.id.photo_details_card)).setCardBackgroundColor(activity.getCardBackgroundColor());
 
@@ -147,7 +183,7 @@ public class AlertDialogsHelper {
 
         } else imgMap.setVisibility(View.GONE);
 
-        final TextView showMoreText = (TextView) dialogLayout.findViewById(R.id.details_showmore);
+        final TextView showMoreText = dialogLayout.findViewById(R.id.details_showmore);
         showMoreText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,28 +198,28 @@ public class AlertDialogsHelper {
     }
 
     private static void loadDetails(View dialogLayout, ThemedActivity activity, MediaDetailsMap<String, String> metadata) {
-        LinearLayout detailsTable = (LinearLayout) dialogLayout.findViewById(R.id.ll_list_details);
+        LinearLayout detailsTable = dialogLayout.findViewById(R.id.ll_list_details);
 
         int tenPxInDp = Measure.pxToDp (10, activity);
+        int hundredPxInDp = Measure.pxToDp (125, activity);//more or less an hundred. Did not used weight for a strange bug
 
         for (int index : metadata.getKeySet()) {
             LinearLayout row = new LinearLayout(activity.getApplicationContext());
             row.setOrientation(LinearLayout.HORIZONTAL);
-            row.setWeightSum(10);
 
             TextView label = new TextView(activity.getApplicationContext());
             TextView value = new TextView(activity.getApplicationContext());
             label.setText(metadata.getLabel(index));
-            label.setLayoutParams((new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 3f)));
+            label.setLayoutParams((new LinearLayout.LayoutParams(hundredPxInDp, LinearLayout.LayoutParams.WRAP_CONTENT)));
             value.setText(metadata.getValue(index));
-            value.setLayoutParams((new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 7f)));
+            value.setLayoutParams((new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)));
             label.setTextColor(activity.getTextColor());
             label.setTypeface(null, Typeface.BOLD);
             label.setGravity(Gravity.END);
             label.setTextSize(16);
             value.setTextColor(activity.getTextColor());
             value.setTextSize(16);
-            value.setPaddingRelative(tenPxInDp, 0, 0, 0);
+            value.setPaddingRelative(tenPxInDp, 0, tenPxInDp, 0);
             row.addView(label);
             row.addView(value);
             detailsTable.addView(row, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -199,10 +235,10 @@ public class AlertDialogsHelper {
         final AlertDialog.Builder changelogDialogBuilder = new AlertDialog.Builder(activity, activity.getDialogStyle());
         View dialogLayout = activity.getLayoutInflater().inflate(R.layout.dialog_changelog, null);
 
-        TextView dialogTitle = (TextView) dialogLayout.findViewById(R.id.dialog_changelog_title);
-        TextView dialogMessage = (TextView) dialogLayout.findViewById(R.id.dialog_changelog_text);
-        CardView cvBackground = (CardView) dialogLayout.findViewById(R.id.dialog_changelog_card);
-        ScrollView scrChangelog = (ScrollView) dialogLayout.findViewById(R.id.changelog_scrollview);
+        TextView dialogTitle = dialogLayout.findViewById(R.id.dialog_changelog_title);
+        TextView dialogMessage = dialogLayout.findViewById(R.id.dialog_changelog_text);
+        CardView cvBackground = dialogLayout.findViewById(R.id.dialog_changelog_card);
+        ScrollView scrChangelog = dialogLayout.findViewById(R.id.changelog_scrollview);
 
         cvBackground.setCardBackgroundColor(activity.getCardBackgroundColor());
         dialogTitle.setBackgroundColor(activity.getPrimaryColor());

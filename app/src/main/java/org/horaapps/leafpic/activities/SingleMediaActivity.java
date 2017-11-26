@@ -51,9 +51,11 @@ import org.horaapps.leafpic.data.sort.SortingMode;
 import org.horaapps.leafpic.data.sort.SortingOrder;
 import org.horaapps.leafpic.fragments.ImageFragment;
 import org.horaapps.leafpic.util.AlertDialogsHelper;
+import org.horaapps.leafpic.util.LegacyCompatFileProvider;
 import org.horaapps.leafpic.util.Measure;
 import org.horaapps.leafpic.util.Security;
 import org.horaapps.leafpic.util.StringUtils;
+import org.horaapps.leafpic.util.file.DeleteException;
 import org.horaapps.leafpic.views.HackyViewPager;
 import org.horaapps.liz.ColorPalette;
 
@@ -78,6 +80,7 @@ public class SingleMediaActivity extends SharedMediaActivity {
     private static final int SLIDE_SHOW_INTERVAL = 5000;
     private static final String ISLOCKED_ARG = "isLocked";
     public static final String ACTION_OPEN_ALBUM = "org.horaapps.leafpic.intent.VIEW_ALBUM";
+    public static final String ACTION_OPEN_ALBUM_LAZY = "org.horaapps.leafpic.intent.VIEW_ALBUM_LAZY";
     private static final String ACTION_REVIEW = "com.android.camera.action.REVIEW";
 
 
@@ -107,13 +110,26 @@ public class SingleMediaActivity extends SharedMediaActivity {
 
         String action = getIntent().getAction();
 
-        if (action != null && action.equals(ACTION_OPEN_ALBUM)) {
-            album = getIntent().getParcelableExtra("album");
-            position = getIntent().getIntExtra("position", 0);
-            media = getIntent().getParcelableArrayListExtra("media");
-        } else if (getIntent().getData() != null) {
-            loadUri(getIntent().getData());
+        if (action != null) {
+            switch (action) {
+                case ACTION_OPEN_ALBUM:
+                    loadAlbum(getIntent());
+                    break;
+                case ACTION_OPEN_ALBUM_LAZY:
+                    loadAlbumsLazy(getIntent());
+                    break;
+                default:
+                    loadUri(getIntent().getData());
+                    break;
+
+            }
         }
+
+        /*if (action != null && action.equals(ACTION_OPEN_ALBUM)) {
+            loadAlbum(getIntent());
+        } else if (getIntent().getData() != null) {
+
+        }*/
 
         if (savedInstanceState != null) {
             mViewPager.setLocked(savedInstanceState.getBoolean(ISLOCKED_ARG, false));
@@ -121,6 +137,21 @@ public class SingleMediaActivity extends SharedMediaActivity {
 
         adapter = new MediaPagerAdapter(getSupportFragmentManager(), media);
         initUi();
+    }
+
+    private void loadAlbum(Intent intent) {
+        album = intent.getParcelableExtra("album");
+        position = intent.getIntExtra("position", 0);
+        media = intent.getParcelableArrayListExtra("media");
+    }
+
+    private void loadAlbumsLazy(Intent intent) {
+        album = intent.getParcelableExtra("album");
+        //position = intent.getIntExtra("position", 0);
+        Media m = intent.getParcelableExtra("media");
+        media = new ArrayList<>();
+        media.add(m);
+        position = 0;
     }
 
     private void loadUri(Uri uri) {
@@ -205,13 +236,11 @@ public class SingleMediaActivity extends SharedMediaActivity {
     Runnable slideShowRunnable = new Runnable() {
         @Override
         public void run() {
-            try{
+            try {
                 mViewPager.setCurrentItem((mViewPager.getCurrentItem() + 1) % album.getCount());
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            }
-            finally{
+            } finally {
                 handler.postDelayed(this, SLIDE_SHOW_INTERVAL);
             }
         }
@@ -261,7 +290,7 @@ public class SingleMediaActivity extends SharedMediaActivity {
     }
 
     private void updatePageTitle(int position) {
-        getSupportActionBar().setTitle((position + 1) + " " + getString(R.string.of) + " " + adapter.getCount());
+        getSupportActionBar().setTitle(getString(R.string.of, position + 1, adapter.getCount()));
     }
 
     @Override
@@ -277,6 +306,7 @@ public class SingleMediaActivity extends SharedMediaActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         if (isSlideShowOn) {
             getMenuInflater().inflate(R.menu.menu_view_page_slide_on, menu);
+            menu.findItem(R.id.slide_show).setIcon(getToolbarIcon(CommunityMaterial.Icon.cmd_stop_circle_outline));
         } else {
             getMenuInflater().inflate(R.menu.menu_view_pager, menu);
 
@@ -365,7 +395,7 @@ public class SingleMediaActivity extends SharedMediaActivity {
                             }
                         },
                         err -> {
-                            if (err instanceof MediaHelper.DeleteException)
+                            if (err instanceof DeleteException)
                                 Toast.makeText(this, R.string.delete_error, Toast.LENGTH_SHORT).show();
                             else
                                 Toast.makeText(this, err.getMessage(), Toast.LENGTH_SHORT).show();
@@ -458,13 +488,17 @@ public class SingleMediaActivity extends SharedMediaActivity {
 
 
             case R.id.action_share:
+                // TODO: 16/10/17 check if it works everywhere
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType(getCurrentMedia().getMimeType());
-                share.putExtra(Intent.EXTRA_STREAM, getCurrentMedia().getUri());
+                Uri uri1 = LegacyCompatFileProvider.getUri(this, getCurrentMedia().getFile());
+                share.putExtra(Intent.EXTRA_STREAM, uri1);
+                share.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(share, getString(R.string.send_to)));
                 return true;
 
             case R.id.action_edit:
+                // TODO: 16/10/17 redo
                 Uri mDestinationUri = Uri.fromFile(new File(getCacheDir(), "croppedImage.png"));
                 Uri uri = Uri.fromFile(new File(getCurrentMedia().getPath()));
                 UCrop uCrop = UCrop.of(uri, mDestinationUri);
@@ -474,15 +508,17 @@ public class SingleMediaActivity extends SharedMediaActivity {
 
             case R.id.action_use_as:
                 Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
-                intent.setDataAndType(
-                        getCurrentMedia().getUri(), getCurrentMedia().getMimeType());
+                intent.setDataAndType(LegacyCompatFileProvider.getUri(this,
+                        getCurrentMedia().getFile()), getCurrentMedia().getMimeType());
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(intent, getString(R.string.use_as)));
                 return true;
 
             case R.id.action_open_with:
                 Intent intentopenWith = new Intent(Intent.ACTION_VIEW);
-                intentopenWith.setDataAndType(
-                        getCurrentMedia().getUri(), getCurrentMedia().getMimeType());
+                intentopenWith.setDataAndType(LegacyCompatFileProvider.getUri(this,
+                        getCurrentMedia().getFile()), getCurrentMedia().getMimeType());
+                intentopenWith.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(intentopenWith, getString(R.string.open_with)));
                 break;
 
@@ -568,7 +604,8 @@ public class SingleMediaActivity extends SharedMediaActivity {
 
             case R.id.action_edit_with:
                 Intent editIntent = new Intent(Intent.ACTION_EDIT);
-                editIntent.setDataAndType(getCurrentMedia().getUri(), getCurrentMedia().getMimeType());
+                editIntent.setDataAndType(LegacyCompatFileProvider.getUri(this,
+                        getCurrentMedia().getFile()), getCurrentMedia().getMimeType());
                 editIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(editIntent, getString(R.string.edit_with)));
                 break;
@@ -595,14 +632,18 @@ public class SingleMediaActivity extends SharedMediaActivity {
 
             case R.id.action_palette:
                 Intent paletteIntent = new Intent(getApplicationContext(), PaletteActivity.class);
-                paletteIntent.setData(getCurrentMedia().getUri());
+                paletteIntent.setData(LegacyCompatFileProvider.getUri(this,
+                        getCurrentMedia().getFile()));
+                paletteIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(paletteIntent);
                 break;
 
             case R.id.slide_show:
                 isSlideShowOn = !isSlideShowOn;
-                if (isSlideShowOn) handler.postDelayed(slideShowRunnable, SLIDE_SHOW_INTERVAL);
-                else handler.removeCallbacks(slideShowRunnable);
+                if (isSlideShowOn) {
+                    handler.postDelayed(slideShowRunnable, SLIDE_SHOW_INTERVAL);
+                    hideSystemUI();
+                } else handler.removeCallbacks(slideShowRunnable);
                 supportInvalidateOptionsMenu();
 
             default:

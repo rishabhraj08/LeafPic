@@ -178,6 +178,7 @@ public class MediaAdapter extends ThemedAdapter<MediaAdapter.ViewHolder> {
 
         //holder.path.setTag(f);
         holder.icon.setVisibility(View.GONE);
+        holder.layout.setBackgroundColor(getThemeHelper().getPrimaryColor());
 
         if (f.isGif()) {
             Ion.with(holder.imageView.getContext())
@@ -211,11 +212,10 @@ public class MediaAdapter extends ThemedAdapter<MediaAdapter.ViewHolder> {
             holder.path.setBackgroundColor(
                     ColorPalette.getTransparentColor(
                             ContextCompat.getColor(holder.path.getContext(), R.color.md_black_1000), 100));*/
-            holder.icon.setIcon(CommunityMaterial.Icon.cmd_play_circle);
             //ANIMS
             holder.icon.animate().alpha(1).setDuration(250);
             holder.path.animate().alpha(1).setDuration(250);
-
+            holder.icon.setColor(getThemeHelper().getPrimaryColor());
         } else {
             holder.icon.setVisibility(View.GONE);
             holder.path.setVisibility(View.GONE);
@@ -229,9 +229,9 @@ public class MediaAdapter extends ThemedAdapter<MediaAdapter.ViewHolder> {
             holder.icon.setVisibility(View.VISIBLE);
             holder.imageView.setColorFilter(0x88000000, PorterDuff.Mode.SRC_ATOP);
             holder.layout.setPadding(15,15,15,15);
+            holder.icon.setColor(getThemeHelper().getPrimaryColor());
             //ANIMS
             holder.icon.animate().alpha(1).setDuration(250);
-            //holder.layout.setBackgroundColor(ThemeHelper.getPrimaryColor(holder.path.getContext()));
         } else {
             holder.imageView.clearColorFilter();
             holder.layout.setPadding(0,0,0,0);
@@ -262,11 +262,18 @@ public class MediaAdapter extends ThemedAdapter<MediaAdapter.ViewHolder> {
         });
     }
 
+    public void remove(Media media) {
+        int i = this.media.indexOf(media);
+        this.media.remove(i);
+        notifyItemRemoved(i);
+    }
+
     @Override
     public void refreshTheme(ThemeHelper theme) {
         placeholder = theme.getPlaceHolder();
         //super.refreshTheme(theme);
     }
+
 
     /**
      * On longpress, it finds the last or the first selected image before or after the targetIndex
