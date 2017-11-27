@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "762643375947",
+    "firebase_url": "https://leafpic-test.firebaseio.com",
+    "project_id": "leafpic-test",
+    "storage_bucket": "leafpic-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762643375947:android:2e9af98312257190",
+        "android_client_info": {
+          "package_name": "org.horaapps.leafpic.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "762643375947-nkruji1uv5hfhmae7n3dg1lpvht593ig.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.horaapps.leafpic.debug",
+            "certificate_hash": "a71204da5f3b6588fb6448fd0b37551fa8156821"
+          }
+        },
+        {
+          "client_id": "762643375947-7e045futmbshlt92bumui82lcbasij7b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.horaapps.leafpic.debug",
+            "certificate_hash": "d1e54ac5bac55f34a8441a9518180ce2babee4af"
+          }
+        },
+        {
+          "client_id": "762643375947-7u4h66eflck2ll3r7u8kljmklpd9om95.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqSvHKuEF5SE-nfA99AMdxj9Fk2f3y8Wo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "762643375947-7u4h66eflck2ll3r7u8kljmklpd9om95.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -42,6 +42,7 @@ import com.mikepenz.iconics.view.IconicsImageView;
 import com.orhanobut.hawk.Hawk;
 
 import org.horaapps.leafpic.BuildConfig;
+import org.horaapps.leafpic.FaceRecognition.FaceRecog;
 import org.horaapps.leafpic.R;
 import org.horaapps.leafpic.SelectAlbumBuilder;
 import org.horaapps.leafpic.activities.base.SharedMediaActivity;
@@ -273,7 +274,9 @@ public class MainActivity extends SharedMediaActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA));
+                Intent it= new Intent(MainActivity.this, FaceRecog.class);
+                startActivity(it);
+                //startActivity(new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA));
             }
         });
     }

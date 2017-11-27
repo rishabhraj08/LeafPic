@@ -352,7 +352,8 @@ public class SingleMediaActivity extends SharedMediaActivity {
         finish();
     }
 
-    private void deleteCurrentMedia() {
+    private void deleteCurrentMedia()
+    {
         Media currentMedia = getCurrentMedia();
 
         MediaHelper.deleteMedia(getApplicationContext(), currentMedia)
@@ -370,7 +371,8 @@ public class SingleMediaActivity extends SharedMediaActivity {
                             else
                                 Toast.makeText(this, err.getMessage(), Toast.LENGTH_SHORT).show();
                         },
-                        () -> {
+                        () ->
+                        {
                             adapter.notifyDataSetChanged();
                             updatePageTitle(mViewPager.getCurrentItem());
                         });
@@ -385,18 +387,23 @@ public class SingleMediaActivity extends SharedMediaActivity {
             case R.id.rotate_180:
                 if (!((ImageFragment) adapter.getRegisteredFragment(position)).rotatePicture(180)) {
                     Toast.makeText(this, R.string.coming_soon, Toast.LENGTH_SHORT).show();
+                     getCurrentMedia().setOrientation(180);
+
                 }
                 break;
 
             case R.id.rotate_right_90:
                 if (!((ImageFragment) adapter.getRegisteredFragment(position)).rotatePicture(90)) {
                     Toast.makeText(this, R.string.coming_soon, Toast.LENGTH_SHORT).show();
+                    getCurrentMedia().setOrientation(90);
                 }
                 break;
 
             case R.id.rotate_left_90:
                 if (!((ImageFragment) adapter.getRegisteredFragment(position)).rotatePicture(-90)) {
                     Toast.makeText(this, R.string.coming_soon, Toast.LENGTH_SHORT).show();
+                    if(getCurrentMedia().setOrientation(270))
+                        Toast.makeText(getBaseContext(),"rotationdone",Toast.LENGTH_LONG);
                 }
                 break;
 

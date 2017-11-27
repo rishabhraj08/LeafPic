@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/backup_background"
+android:layout_width="match_parent"
+xmlns:tools="http://schemas.android.com/tools"
+tools:context=".activities.DropboxBackup"
+android:layout_height="match_parent"
+android:orientation="vertical">
+<!--TOOLBAR-->
+<include
+    android:id="@+id/toolbar"
+    layout="@layout/toolbar"
+    android:background="@color/md_dark_appbar"
+    android:windowActionBarOverlay="true" />
+<ScrollView
+    android:id="@+id/backupAct_scrollView"
+    android:scrollbarSize="@dimen/scroll_bar_size"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <android.support.v7.widget.CardView
+            android:id="@+id/backup_header_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/card_spacing"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation"
+            android:foreground="@drawable/ripple"
+            android:clickable="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/ll_backup_app_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:id="@+id/backup_header_icon"
+                        android:layout_width="@dimen/icon_width_height"
+                        android:layout_height="@dimen/icon_width_height"
+                        android:layout_gravity="center_vertical"
+                        app:iiv_icon="@string/gmd_cloud_upload"
+                        android:layout_margin="@dimen/big_spacing" />
+                    <TextView
+                        android:id="@+id/backup_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_dark_background"
+                        android:text="@string/cloud_backup"
+                        android:textSize="@dimen/big_text"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_vertical" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/backup_header_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/backup_header_text"
+                    android:paddingBottom="@dimen/medium_spacing"
+                    android:paddingLeft="@dimen/big_spacing"
+                    android:paddingRight="@dimen/big_spacing"
+                    android:textColor="@color/md_dark_background"
+                    android:textSize="@dimen/medium_text" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <!--DROPBOX-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/dropbox_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/card_spacing"
+            app:cardElevation="@dimen/card_elevation"
+            android:foreground="@drawable/ripple"
+            android:clickable="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/ll_backup_dropbox_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:id="@+id/dropbox_icon_title"
+                        android:layout_width="@dimen/icon_width_height"
+                        android:layout_height="@dimen/icon_width_height"
+                        android:layout_gravity="center_vertical"
+                        app:iiv_icon="faw-cloud"
+                        android:layout_margin="@dimen/big_spacing" />
+                    <TextView
+                        android:id="@+id/dropbox_item_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/dropbox"
+                        android:textColor="@color/md_dark_background"
+                        android:textSize="@dimen/sub_big_text"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <!--OBJECT-->
+                <TextView
+                    android:id="@+id/backup_dropbox_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dropbox_text"
+                    android:textColor="@color/md_dark_background"
+                    android:textSize="@dimen/medium_text"
+                    android:paddingRight="@dimen/big_spacing"
+                    android:paddingLeft="@dimen/big_spacing" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dropbox_sign_in"
+                    android:text="@string/dropbox_login"
+                    android:padding="@dimen/small_spacing"
+                    android:layout_marginStart="@dimen/medium_spacing"
+                    android:layout_marginEnd="@dimen/big_spacing"
+                    android:layout_marginBottom="@dimen/medium_spacing"
+                    android:layout_gravity="end"
+                    android:elevation="@dimen/fab_elevation"
+                    android:clickable="true"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <!--FIREBASE -->
+        <android.support.v7.widget.CardView
+            android:id="@+id/cloud_firebase_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/card_spacing"
+            app:cardElevation="@dimen/card_elevation"
+            android:foreground="@drawable/ripple"
+            android:clickable="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--TITLE-->
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/ll_backup_firebase_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.mikepenz.iconics.view.IconicsImageView
+                        android:id="@+id/backup_firebase_icon_title"
+                        android:layout_width="@dimen/icon_width_height"
+                        android:layout_height="@dimen/icon_width_height"
+                        android:layout_gravity="center_vertical"
+                        app:iiv_icon="faw-cloud"
+                        android:layout_margin="@dimen/big_spacing" />
+                    <TextView
+                        android:id="@+id/backup_firebase_item_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/backup_firebase"
+                        android:textColor="@color/md_dark_background"
+                        android:textSize="@dimen/sub_big_text"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/backup_firebase_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/medium_spacing"
+                    android:text="@string/firebase_coming_soon"
+                    android:textColor="@color/md_dark_background"
+                    android:textSize="@dimen/medium_text"
+                    android:background="@drawable/ripple"
+                    android:clickable="true" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/firebase_sign_in"
+                    android:text="@string/firebase_login"
+                    android:padding="@dimen/small_spacing"
+                    android:layout_marginStart="@dimen/medium_spacing"
+                    android:layout_marginEnd="@dimen/big_spacing"
+                    android:layout_marginBottom="@dimen/medium_spacing"
+                    android:layout_gravity="end"
+                    android:elevation="@dimen/fab_elevation"
+                    android:clickable="true" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

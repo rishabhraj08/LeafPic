@@ -118,6 +118,7 @@ dependencies {
     implementation 'de.psdev.licensesdialog:licensesdialog:1.8.0'
     implementation files('libs/dropbox-android-sdk-1.6.3.jar')
     implementation files('libs/json_simple-1.1.jar')
+    implementation files('libs/KairosSDK.jar')
 }
 
 Properties props = new Properties()
