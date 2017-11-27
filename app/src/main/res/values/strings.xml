@@ -6,6 +6,12 @@
     <string name="welcome_slide_title">Welcome To LeafPic!</string>
     <string name="welcome_slide_sub">A Colorful Material Designed Gallery!</string>
     <string name="made_with_love_by">Made with love by</string>
+	
+	<!--Face Detection-->
+	<string name="ok">OK</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
+    <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
+    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
 
     <!--Cloud Backup-->
     <string name="cloud">Cloud</string>

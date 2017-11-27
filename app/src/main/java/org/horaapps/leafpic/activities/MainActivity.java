@@ -1,5 +1,6 @@
 package org.horaapps.leafpic.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -9,6 +10,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.media.FaceDetector;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,6 +63,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import facetracker.FaceTrackerActivity;
 
 
 public class MainActivity extends SharedMediaActivity {
@@ -274,11 +278,28 @@ public class MainActivity extends SharedMediaActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it= new Intent(MainActivity.this, FaceRecog.class);
-                startActivity(it);
+                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.google.android.gms.samples.vision.face.facetracker");
+                if (launchIntent != null) {
+                    startActivity(launchIntent);//null pointer check in case package name was not found
+                }
+                //startNewActivity(getBaseContext(),"Face Tracker");
+                //Intent it= new Intent();
+                //it.setAction("com.sam.OPEN_FACE");
+                //getApplication().startActivity(it);
                 //startActivity(new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA));
             }
         });
+    }
+
+    public void startNewActivity(Context context, String packageName) {
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        if (intent == null) {
+            // Bring user to the market or let them choose an app?
+            intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("market://details?id=" + packageName));
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     private void askPassword() {

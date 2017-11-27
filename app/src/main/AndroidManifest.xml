@@ -9,6 +9,8 @@
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -43,6 +45,26 @@
                 <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
+
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="face" />
+
+        <activity
+            android:name="facetracker.FaceTrackerActivity"
+            android:label="Face Tracker"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="fullSensor">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.SplashScreen"
             android:configChanges="orientation|screenSize"
