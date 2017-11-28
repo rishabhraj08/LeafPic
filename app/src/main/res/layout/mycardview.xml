@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        android:elevation="3dp"
+        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        card_view:cardBackgroundColor="#6E8B3D"
+        card_view:cardCornerRadius="0dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp">
+            <TextView
+                android:id="@+id/cText"
+                android:text="Face_Id"
+                android:textStyle="bold"
+                android:textSize="19dp"
+                android:textColor="#000"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:id="@+id/ctx1"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/cText"
+                android:layout_marginStart="52dp"
+                android:layout_marginTop="19dp"
+                android:text="Gender"
+                android:textColor="#000"
+                android:textSize="19dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ctx2"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/ctx1"
+                android:layout_alignBottom="@+id/ctx1"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="47dp"
+                android:text="M/F"
+                android:textColor="#000"
+                android:textSize="19dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ctx3"
+                android:layout_width="80dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/ctx7"
+                android:layout_below="@+id/ctx1"
+                android:layout_marginTop="26dp"
+                android:text="Asian"
+                android:textColor="#000"
+                android:textSize="19dp" />
+
+            <TextView
+                android:id="@+id/ctx4"
+                android:layout_width="80dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/ctx3"
+                android:layout_alignBottom="@+id/ctx3"
+                android:layout_alignStart="@+id/ctx2"
+                android:text="Indian"
+                android:textColor="#000"
+                android:textSize="19dp" />
+
+            <TextView
+                android:id="@+id/ctx5"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/ctx3"
+                android:layout_below="@+id/ctx3"
+                android:layout_marginTop="23dp"
+                android:text="Eye Distance"
+                android:textColor="#000"
+                android:textSize="19dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ctx6"
+                android:layout_width="80dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/ctx4"
+                android:layout_alignTop="@+id/ctx5"
+                android:layout_marginTop="11dp"
+                android:text="17.5"
+                android:textColor="#000"
+                android:textSize="19dp" />
+
+            <TextView
+                android:id="@+id/ctx7"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/ctx9"
+                android:layout_alignStart="@+id/ctx1"
+                android:layout_marginBottom="15dp"
+                android:text="Male Confidence"
+                android:textColor="#000"
+                android:textSize="19dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ctx8"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ctx7"
+                android:layout_alignStart="@+id/ctx10"
+                android:layout_marginBottom="11dp"
+                android:text="0.999"
+                android:textColor="#000"
+                android:textSize="19dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ctx9"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_alignBottom="@+id/ctx10"
+                android:layout_alignStart="@+id/ctx7"
+                android:text="Female Confidence"
+                android:textColor="#000"
+                android:textSize="17.7dp" />
+
+            <TextView
+                android:id="@+id/ctx10"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/ctx14"
+                android:layout_alignStart="@+id/ctx12"
+                android:textStyle="bold"
+                android:layout_marginBottom="53dp"
+                android:text="0.012"
+                android:textColor="#000"
+                android:textSize="19dp" />
+
+            <TextView
+                android:id="@+id/ctx11"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/ctx9"
+                android:textStyle="bold"
+                android:layout_below="@+id/ctx9"
+                android:layout_marginTop="18dp"
+                android:text="Age"
+                android:textColor="#000"
+                android:textSize="19dp" />
+
+            <TextView
+                android:id="@+id/ctx12"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/ctx11"
+                android:textStyle="bold"
+                android:layout_alignBottom="@+id/ctx11"
+                android:layout_alignStart="@+id/ctx6"
+                android:text="38"
+                android:textColor="#000"
+                android:textSize="19dp" />
+
+            <TextView
+                android:id="@+id/ctx13"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/ctx11"
+                android:text="Glasses"
+                android:textColor="#000"
+                android:textSize="19dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ctx14"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:textStyle="bold"
+                android:layout_alignStart="@+id/ctx12"
+                android:text="None"
+                android:textColor="#000"
+                android:textSize="19dp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>
